@@ -8,8 +8,8 @@ namespace DistributedDB.Helpers
 {
     public static class StaticConstants
     {
-        public static string DB1 = "";
-        public static string BD2 = "";
-        public static string BD3 = "";
+        public static string DB1 = "Data Source=DESKTOP-60PL41P\\SQLEXPRESS;Initial Catalog = Agencia1;Integrated Security=true;";
+        public static string BD2 = "Data Source=DESKTOP-60PL41P\\SQLEXPRESS;Initial Catalog = Agencia2;Integrated Security=true;";
+        public static string BD3 = "Data Source=DESKTOP-60PL41P\\SQLEXPRESS;Initial Catalog = Agencia3;Integrated Security=true;";
     }
 }

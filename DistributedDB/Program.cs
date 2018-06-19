@@ -33,10 +33,12 @@ namespace DistributedDB
                 var queryWritten = query.Text.ToString();
                 using (DBService db = new DBService())
                 {
-                    switch (queryWritten.ToLower())
+					tableText = string.Empty;
+
+					switch (queryWritten.ToLower())
                     {
                         case "select * from clientes":
-                            var list = db.GetClientes();
+                            var list = db.GetCiudades();
                             var table = new ConsoleTable();
                             for (int i = 0; i < list?[0].Table.Columns.Count; i++)
                             {
@@ -54,7 +56,64 @@ namespace DistributedDB
                             }
                             tableText = table.ToString();
                             break;
-                        default:
+						case "select * from ciudades":
+							var listCity = db.GetCiudades();
+							var tableCity = new ConsoleTable();
+							for (int i = 0; i < listCity?[0].Table.Columns.Count; i++)
+							{
+								tableCity.Columns.Add(listCity[0].Table.Columns[i].ColumnName);
+							}
+							foreach (var item in listCity)
+							{
+								var values = new string[item.ItemArray.Length];
+								for (int i = 0; i < item.ItemArray.Length; i++)
+								{
+									values[i] = item.ItemArray[i].ToString();
+								}
+								tableCity.AddRow(values);
+
+							}
+							tableText = tableCity.ToString();
+							break;
+						case "select * from paises":
+							var listCountry = db.GetCiudades();
+							var tableCountry = new ConsoleTable();
+							for (int i = 0; i < listCountry?[0].Table.Columns.Count; i++)
+							{
+								tableCountry.Columns.Add(listCountry[0].Table.Columns[i].ColumnName);
+							}
+							foreach (var item in listCountry)
+							{
+								var values = new string[item.ItemArray.Length];
+								for (int i = 0; i < item.ItemArray.Length; i++)
+								{
+									values[i] = item.ItemArray[i].ToString();
+								}
+								tableCountry.AddRow(values);
+
+							}
+							tableText = tableCountry.ToString();
+							break;
+						case "select * from destinos":
+							var listDes = db.GetDestino();
+							var tableDes = new ConsoleTable();
+							for (int i = 0; i < listDes?[0].Table.Columns.Count; i++)
+							{
+								tableDes.Columns.Add(listDes[0].Table.Columns[i].ColumnName);
+							}
+							foreach (var item in listDes)
+							{
+								var values = new string[item.ItemArray.Length];
+								for (int i = 0; i < item.ItemArray.Length; i++)
+								{
+									values[i] = item.ItemArray[i].ToString();
+								}
+								tableDes.AddRow(values);
+
+							}
+							tableText = tableDes.ToString();
+							break;
+						default:
                             break;
                     }
                 }
