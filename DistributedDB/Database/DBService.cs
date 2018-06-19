@@ -40,7 +40,75 @@ namespace DistributedDB.Database
             return table.AsEnumerable().ToList();
         }
 
-        public void Dispose()
+		public List<DataRow> GetCiudades()
+		{
+			var table = new DataTable();
+			using (SqlCommand com = new SqlCommand("Select * from Ciudades1", travel1))
+			{
+				table.Load(com.ExecuteReader());
+			}
+
+			var table2 = new DataTable();
+			using (SqlCommand com = new SqlCommand("Select * from Ciudades1", travel2))
+			{
+				table2.Load(com.ExecuteReader());
+			}
+
+			var table3 = new DataTable();
+			using (SqlCommand com = new SqlCommand("Select * from Ciudades2", travel3))
+			{
+				table3.Load(com.ExecuteReader());
+			}
+
+			table.Merge(table2);
+			table.Merge(table3);
+			return table.AsEnumerable().ToList();
+		}
+
+		public List<DataRow> GetPaises()
+		{
+			var table = new DataTable();
+			using (SqlCommand com = new SqlCommand("Select * from Paises1", travel1))
+			{
+				table.Load(com.ExecuteReader());
+			}
+
+			var table2 = new DataTable();
+			using (SqlCommand com = new SqlCommand("Select * from Paises1", travel2))
+			{
+				table2.Load(com.ExecuteReader());
+			}
+
+			var table3 = new DataTable();
+			using (SqlCommand com = new SqlCommand("Select * from Paises2", travel3))
+			{
+				table3.Load(com.ExecuteReader());
+			}
+
+			table.Merge(table2);
+			table.Merge(table3);
+			return table.AsEnumerable().ToList();
+		}
+
+		public List<DataRow> GetDestino()
+		{
+			var table = new DataTable();
+			using (SqlCommand com = new SqlCommand("Select * from Destinos1", travel1))
+			{
+				table.Load(com.ExecuteReader());
+			}
+
+			var table2 = new DataTable();
+			using (SqlCommand com = new SqlCommand("Select * from Destinos2", travel3))
+			{
+				table2.Load(com.ExecuteReader());
+			}
+
+			table.Merge(table2);
+			return table.AsEnumerable().ToList();
+		}
+
+		public void Dispose()
         {
             travel1.Close();
             travel2.Close();
