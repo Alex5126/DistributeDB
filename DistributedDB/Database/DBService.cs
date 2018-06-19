@@ -40,6 +40,24 @@ namespace DistributedDB.Database
             return table.AsEnumerable().ToList();
         }
 
+        public List<DataRow> GetViajes()
+        {
+            var table = new DataTable();
+            using (SqlCommand com = new SqlCommand("Select * from Viajes1", travel1))
+            {
+                table.Load(com.ExecuteReader());
+            }
+
+            var table2 = new DataTable();
+            using (SqlCommand com = new SqlCommand("Select * from Viajes1", travel2))
+            {
+                table2.Load(com.ExecuteReader());
+            }
+
+            table.Merge(table2);
+            return table.AsEnumerable().ToList();
+        }
+
         public void Dispose()
         {
             travel1.Close();

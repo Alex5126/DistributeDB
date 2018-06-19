@@ -20,11 +20,22 @@ namespace DistributedDB
             var labelQuery = new Label(3, 3, "Query: ");
             var query = new TextField(14, 3, 40, "");
             var consult = new Button(60, 3, "Ok");
-            var textView = new TextView(new Rect(3, 7, 115, 70))
+
+            var scroll = new ScrollView(new Rect(3, 7, 115, 70))
+            {
+                ContentSize = new Size(top.Frame.Width, top.Frame.Height - 1),
+                ContentOffset = new Point(-1, -1),
+                ShowVerticalScrollIndicator = true,
+                ShowHorizontalScrollIndicator = true
+            };
+
+            var textView = new TextView()
             {
                 Text = string.Empty,
                 
-            };            
+            };
+
+            scroll.Add(textView);
 
             var tableText = string.Empty;
 
@@ -54,14 +65,34 @@ namespace DistributedDB
                             }
                             tableText = table.ToString();
                             break;
+                        case "select * from viajes":
+                            var listViajes = db.GetViajes();
+                            var tableViajes = new ConsoleTable();
+                            for (int i = 0; i < listViajes?[0].Table.Columns.Count; i++)
+                            {
+                                tableViajes.Columns.Add(listViajes[0].Table.Columns[i].ColumnName);
+                            }
+                            foreach (var item in listViajes)
+                            {
+                                var values = new string[item.ItemArray.Length];
+                                for (int i = 0; i < item.ItemArray.Length; i++)
+                                {
+                                    values[i] = item.ItemArray[i].ToString();
+                                }
+                                tableViajes.AddRow(values);
+
+                            }
+                            tableText = tableViajes.ToString();
+                            break;
                         default:
+                            tableText = "INCORRECT QUERY DETECTED";
                             break;
                     }
                 }
                 textView.Text = tableText;
             };
             
-            win.Add(labelQuery, query, consult, textView);
+            win.Add(labelQuery, query, consult, scroll);
             Application.Run();
         }
 	}
