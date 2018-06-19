@@ -10,6 +10,7 @@ namespace DistributedDB
 	{
 		static void Main(string[] args)
 		{
+
 		}
 	}
 }
