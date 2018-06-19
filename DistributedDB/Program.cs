@@ -1,4 +1,5 @@
 ﻿using ConsoleTables;
+using DistributedDB.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,17 +22,45 @@ namespace DistributedDB
             var consult = new Button(60, 3, "Ok");
             var textView = new TextView(new Rect(3, 7, 115, 70))
             {
-                Text = "Esta es una prueba",
+                Text = string.Empty,
                 
+            };            
+
+            var tableText = string.Empty;
+
+            consult.Clicked = () =>
+            {
+                var queryWritten = query.Text.ToString();
+                using (DBService db = new DBService())
+                {
+                    switch (queryWritten.ToLower())
+                    {
+                        case "select * from clientes":
+                            var list = db.GetClientes();
+                            var table = new ConsoleTable();
+                            for (int i = 0; i < list?[0].Table.Columns.Count; i++)
+                            {
+                                table.Columns.Add(list[0].Table.Columns[i].ColumnName);
+                            }
+                            foreach (var item in list)
+                            {
+                                var values = new string[item.ItemArray.Length];
+                                for (int i = 0; i < item.ItemArray.Length; i++)
+                                {
+                                    values[i] = item.ItemArray[i].ToString();
+                                }
+                                table.AddRow(values);
+
+                            }
+                            tableText = table.ToString();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                textView.Text = tableText;
             };
-
-            var table = new ConsoleTable("one", "two", "three");
-            table.AddRow(1, 2, 3)
-                 .AddRow("this line should be longer", "yes it is", "oh");
-
-            var tableText = table.ToString();
-
-            textView.Text = tableText;
+            
             win.Add(labelQuery, query, consult, textView);
             Application.Run();
         }
